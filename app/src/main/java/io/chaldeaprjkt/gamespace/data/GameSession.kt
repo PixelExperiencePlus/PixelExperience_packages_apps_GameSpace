@@ -24,6 +24,8 @@ import io.chaldeaprjkt.gamespace.utils.GameModeUtils
 import javax.inject.Inject
 
 private const val gameSwitchNode = "/proc/touchpanel/game_switch_enable"
+private const val interpolationNode = "/sys/class/touchscreen/primary/interpolation"
+
 class GameSession @Inject constructor(
     private val context: Context,
     private val appSettings: AppSettings,
@@ -83,6 +85,9 @@ class GameSession @Inject constructor(
         if (GameModeUtils(context).isFileWritable(gameSwitchNode)) {
             GameModeUtils(context).writeValue(gameSwitchNode, "1")
         }
+        if (GameModeUtils(context).isFileWritable(interpolationNode)) {
+            GameModeUtils(context).writeValue(interpolationNode, "1")
+        }
     }
 
     fun unregister() {
@@ -104,6 +109,9 @@ class GameSession @Inject constructor(
         }
         if (GameModeUtils(context).isFileWritable(gameSwitchNode)) {
             GameModeUtils(context).writeValue(gameSwitchNode, "0")
+        }
+        if (GameModeUtils(context).isFileWritable(interpolationNode)) {
+            GameModeUtils(context).writeValue(interpolationNode, "0")
         }
         state = null
     }
